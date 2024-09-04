@@ -8,6 +8,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = ChessUI
-build_property.ProjectDir = C:\Users\pajon\OneDrive\Code\C#\BetterChess\ChessUI\
+build_property.ProjectDir = C:\Users\pajon\OneDrive\Code\BetterChess\ChessUI\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 

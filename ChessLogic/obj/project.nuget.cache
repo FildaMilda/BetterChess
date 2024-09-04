@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "jAWsRrU5BeDIMGe5vg8I9fl7bfErMXILQNuO7CqsmRGLRNhLrls1badQM/CJ/fk859hzix8gXMrHN26I+13edQ==",
+  "dgSpecHash": "BvowD7V0KxKGVyIU2IFcy5mwq0M3TQbUDhlTD4GuZwF1DeXJJ+f3XX5i1jzZ90UL7bduv2i+TviEq7uilEPYmw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\pajon\\OneDrive\\Code\\C#\\BetterChess\\ChessLogic\\ChessLogic.csproj",
+  "projectFilePath": "C:\\Users\\pajon\\OneDrive\\Code\\BetterChess\\ChessLogic\\ChessLogic.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

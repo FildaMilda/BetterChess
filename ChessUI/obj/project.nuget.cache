@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "IJAnJq7o1EAj9K6orLdmsQ7wGv+BQEAjBw+L7iHv4Qz8flEFC8rBUT+jXoo1OSPNLYB+9cCejrntIj8ScTvMvw==",
+  "dgSpecHash": "ZloXlkQVhUPpHgWVxdRU9uQIjncmlvEVnb4xGHmT5/Md3IeGWzkB2WESioN95aL+No9EeloBxrZi9dCGVm83Ng==",
   "success": true,
-  "projectFilePath": "C:\\Users\\pajon\\OneDrive\\Code\\C#\\BetterChess\\ChessUI\\ChessUI.csproj",
+  "projectFilePath": "C:\\Users\\pajon\\OneDrive\\Code\\BetterChess\\ChessUI\\ChessUI.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }
