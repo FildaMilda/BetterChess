@@ -47,3 +47,6 @@ C:\Users\pajon\OneDrive\Code\BetterChess\ChessUI\obj\Debug\net8.0-windows\refint
 C:\Users\pajon\OneDrive\Code\BetterChess\ChessUI\obj\Debug\net8.0-windows\ChessUI.pdb
 C:\Users\pajon\OneDrive\Code\BetterChess\ChessUI\obj\Debug\net8.0-windows\ChessUI.genruntimeconfig.cache
 C:\Users\pajon\OneDrive\Code\BetterChess\ChessUI\obj\Debug\net8.0-windows\ref\ChessUI.dll
+C:\Users\pajon\OneDrive\Code\BetterChess\ChessUI\obj\Debug\net8.0-windows\GameOverMenu.g.cs
+C:\Users\pajon\OneDrive\Code\BetterChess\ChessUI\obj\Debug\net8.0-windows\App.baml
+C:\Users\pajon\OneDrive\Code\BetterChess\ChessUI\obj\Debug\net8.0-windows\GameOverMenu.baml
