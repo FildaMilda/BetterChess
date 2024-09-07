@@ -4,6 +4,12 @@
     {
         private readonly Piece[,] pieces = new Piece[8, 8];
 
+        private readonly Dictionary<Player, Position> pawnSkipPositions = new Dictionary<Player, Position>
+        {
+            { Player.White, null },
+            { Player.Black, null }
+        };
+
         public Piece this[int row, int col]
         {
             get { return pieces[row, col]; }
@@ -60,6 +66,16 @@
                 this[1, c] = new Pawn(Player.Black);
                 this[6, c] = new Pawn(Player.White);
             }
+        }
+
+        public Position GetPawnSkipPosition(Player player)
+        {
+            return pawnSkipPositions[player];
+        }
+
+        public void SetPawnSkipPosition(Player player, Position pos)
+        {
+            pawnSkipPositions[player] = pos;
         }
 
         public static bool IsInside(Position pos)
