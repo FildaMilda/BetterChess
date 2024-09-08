@@ -56,6 +56,10 @@
                     Result = Result.Draw(EndReason.Stalemate);
                 }
             }
+            else if (Board.InsufficientMaterial())
+            {
+                Result = Result.Draw(EndReason.InsufficientMaterial);
+            }
         }
 
         public bool IsGameOver()
