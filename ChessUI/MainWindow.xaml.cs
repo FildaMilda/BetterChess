@@ -1,13 +1,8 @@
 ﻿using ChessLogic;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace ChessUI
@@ -218,6 +213,30 @@ namespace ChessUI
                 else
                 {
                     Application.Current.Shutdown();
+                }
+            };
+        }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (!IsMenuOnScreen() && e.Key == Key.Escape)
+            {
+                ShowPauseMenu();
+            }
+        }
+
+        private void ShowPauseMenu()
+        {
+            PauseMenu pauseMenu = new PauseMenu();
+            MenuContainer.Content = pauseMenu;
+
+            pauseMenu.OptionSelected += option =>
+            {
+                MenuContainer.Content = null;
+
+                if (option == Option.Restart)
+                {
+                    RestartGame();
                 }
             };
         }

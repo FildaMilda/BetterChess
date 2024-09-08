@@ -10,11 +10,11 @@ none
 false
 TRACE;RELEASE;NET;NET8_0;NETCOREAPP
 C:\Users\pajon\OneDrive\Code\BetterChess\ChessUI\App.xaml
-31344263437
+4-1284736647
 
-9428300914
+101017787973
 199369534041
-GameOverMenu.xaml;MainWindow.xaml;PromotionMenu.xaml;
+GameOverMenu.xaml;MainWindow.xaml;PauseMenu.xaml;PromotionMenu.xaml;
 
 True
 
