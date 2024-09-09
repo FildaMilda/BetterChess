@@ -7,11 +7,36 @@
         public Player CurrentPlayer { get; private set; }
 
         private int noCaptureOrPawnMoves = 0;
+        private string stateString;
+
+        private readonly Dictionary<string, int> stateHistory = new Dictionary<string, int>();
 
         public GameState(Player player, Board board)
         {
             CurrentPlayer = player;
             Board = board;
+
+            stateString = new StateString(CurrentPlayer, board).ToString();
+            stateHistory[stateString] = 1;
+        }
+
+        private void UpdateStateString()
+        {
+            stateString = new StateString(CurrentPlayer, Board).ToString();
+
+            if (!stateHistory.ContainsKey(stateString))
+            {
+                stateHistory[stateString] = 1;
+            }
+            else
+            {
+                stateHistory[stateString]++;
+            }
+        }
+
+        private bool ThreefoldRepetition()
+        {
+            return stateHistory[stateString] == 3;
         }
 
         public IEnumerable<Move> LegalMovesForPiece(Position pos)
@@ -34,12 +59,14 @@
             if (captureOrPawn)
             {
                 noCaptureOrPawnMoves = 0;
+                stateHistory.Clear();
             }
             else
             {
                 noCaptureOrPawnMoves++;
             }
             CurrentPlayer = CurrentPlayer.Opponent();
+            UpdateStateString();
             CheckForGameOver();
         }
 
@@ -74,6 +101,10 @@
             else if (FiftyMoveRule())
             {
                 Result = Result.Draw(EndReason.FiftyMoveRule);
+            }
+            else if (ThreefoldRepetition())
+            {
+                Result = Result.Draw(EndReason.ThreefoldRepetition);
             }
         }
 
