@@ -1,4 +1,6 @@
-﻿namespace ChessLogic
+﻿using System.Runtime.CompilerServices;
+
+namespace ChessLogic
 {
     public class Board
     {
@@ -66,6 +68,81 @@
                 this[1, c] = new Pawn(Player.Black);
                 this[6, c] = new Pawn(Player.White);
             }
+        }
+
+        public static Board InitialCastleTest()
+        {
+            Board board = new Board();
+            board.AddCastleTestPieces();
+            return board;
+        }
+
+        private void AddCastleTestPieces()
+        {
+            this[0, 0] = new Rook(Player.Black);
+            this[0, 7] = new Rook(Player.Black);
+            this[7, 0] = new Rook(Player.White);
+            this[7, 7] = new Rook(Player.White);
+
+            this[0, 4] = new King(Player.Black);
+            this[7, 4] = new King(Player.White);
+
+            this[0, 2] = new Bishop(Player.Black);
+            this[7, 5] = new Bishop(Player.White);
+        }
+
+        public static Board InitialEnPassantTest()
+        {
+            Board board = new Board();
+            board.AddEnPassantTestPieces();
+            return board;
+        }
+
+        private void AddEnPassantTestPieces()
+        {
+            this[0, 4] = new King(Player.Black);
+            this[7, 4] = new King(Player.White);
+
+            this[0, 3] = new Queen(Player.Black);
+            this[7, 3] = new Queen(Player.White);
+
+            this[4, 3] = new Pawn(Player.Black);
+            this[6, 4] = new Pawn(Player.White);
+        }
+
+        public static Board InitialPromotionTest()
+        {
+            Board board = new Board();
+            board.AddPromotionTestPieces();
+            return board;
+        }
+
+        private void AddPromotionTestPieces()
+        {
+            this[0, 4] = new King(Player.Black);
+            this[7, 4] = new King(Player.White);
+
+            this[0, 3] = new Queen(Player.Black);
+            this[7, 3] = new Queen(Player.White);
+
+            this[6, 0] = new Pawn(Player.Black);
+            this[1, 7] = new Pawn(Player.White);
+        }
+
+        public static Board InitialEndingTest()
+        {
+            Board board = new Board();
+            board.AddEndingTestPieces();
+            return board;
+        }
+
+        private void AddEndingTestPieces()
+        {
+            this[0, 0] = new King(Player.Black);
+            this[7, 4] = new King(Player.White);
+
+            this[1, 7] = new Queen(Player.White);
+            this[7, 1] = new Rook(Player.White);
         }
 
         public Position GetPawnSkipPosition(Player player)

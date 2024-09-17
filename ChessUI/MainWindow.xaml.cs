@@ -24,6 +24,13 @@ namespace ChessUI
             InitializeComponent();
             InitializeBoard();
             gameState = new GameState(Player.White, Board.Initial());
+
+            // Tests
+            // gameState = new GameState(Player.White, Board.InitialCastleTest());
+            // gameState = new GameState(Player.White, Board.InitialEnPassantTest());
+            // gameState = new GameState(Player.White, Board.InitialPromotionTest());
+            // gameState = new GameState(Player.White, Board.InitialEndingTest());
+
             DrawBoard(gameState.Board);
             SetCursor(gameState.CurrentPlayer);
         }
