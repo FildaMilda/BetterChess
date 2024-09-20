@@ -10,6 +10,7 @@
 
         public PawnPromotion(Position from, Position to, PieceType newType)
         {
+            // Constructor initializes the start and end positions, and the type of piece to promote the pawn to.
             FromPos = from;
             ToPos = to;
             this.newType = newType;
@@ -17,6 +18,7 @@
 
         private Piece CreatePromotionPiece(Player color)
         {
+            // Creates and returns the appropriate piece (Knight, Bishop, Rook, or Queen) based on the selected promotion type.
             return newType switch
             {
                 PieceType.Knight => new Knight(color),
@@ -28,6 +30,7 @@
 
         public override bool Execute(Board board)
         {
+            // Executes the pawn promotion by removing the pawn, creating the new piece, and placing it on the board.
             Piece pawn = board[FromPos];
             board[FromPos] = null;
 

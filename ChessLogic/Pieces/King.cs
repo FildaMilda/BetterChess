@@ -19,11 +19,13 @@
 
         public King(Player color)
         {
+            // Constructor initializes the King with the specified color.
             Color = color;
         }
 
         public override Piece Copy()
         {
+            // Creates and returns a copy of the King, preserving its color and movement status.
             King copy = new King(Color);
             copy.HasMoved = HasMoved;
             return copy;
@@ -31,6 +33,7 @@
 
         private static bool IsUnmovedRook(Position pos, Board board)
         {
+            // Checks if the piece at the given position is an unmoved rook.
             if (board.IsEmpty(pos))
             {
                 return false;
@@ -42,11 +45,13 @@
 
         private static bool AllEmpty(IEnumerable<Position> positions, Board board)
         {
+            // Checks if all positions in the provided list are empty.
             return positions.All(pos => board.IsEmpty(pos));
         }
 
         private bool CanCastleKingSide(Position from, Board board)
         {
+            // Determines if castling king-side is possible by checking the rook and empty spaces.
             if (HasMoved)
             {
                 return false;
@@ -60,6 +65,7 @@
 
         private bool CanCastleQueenSide(Position from, Board board)
         {
+            // Determines if castling queen-side is possible by checking the rook and empty spaces.
             if (HasMoved)
             {
                 return false;
@@ -73,6 +79,7 @@
 
         private IEnumerable<Position> MovePositions(Position from, Board board)
         {
+            // Generates all possible move positions for the king based on its directional movement.
             foreach (Direction dir in dirs)
             {
                 Position to = from + dir;
@@ -91,6 +98,7 @@
 
         public override IEnumerable<Move> GetMoves(Position from, Board board)
         {
+            // Generates all legal moves for the king, including castling if possible.
             foreach (Position to in MovePositions(from, board))
             {
                 yield return new NormalMove(from, to);
@@ -109,11 +117,13 @@
 
         public override bool CanCaptureOpponentKing(Position from, Board board)
         {
+            // Determines if the king can capture the opponent's king by checking nearby positions.
             return MovePositions(from, board).Any(to =>
             {
                 Piece piece = board[to];
                 return piece != null && piece.Type == PieceType.King;
             });
         }
+
     }
 }

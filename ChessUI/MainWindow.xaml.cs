@@ -8,16 +8,17 @@ using System.Windows.Shapes;
 namespace ChessUI
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Main window class for the chess application. Handles the board initialization, input, and game logic.
     /// </summary>
     public partial class MainWindow : Window
     {
+        // 2D arrays to store images of pieces and highlights on the chessboard
         private readonly Image[,] pieceImages = new Image[8, 8];
         private readonly Rectangle[,] highlights = new Rectangle[8, 8];
         private readonly Dictionary<Position, Move> moveCache = new Dictionary<Position, Move>();
 
         private GameState gameState;
-        private Position selectedPos = null;
+        private Position selectedPos = null; // Currently selected position on the board
 
         public MainWindow()
         {
@@ -25,16 +26,18 @@ namespace ChessUI
             InitializeBoard();
             gameState = new GameState(Player.White, Board.Initial());
 
-            // Tests
+            // Example test setups for different game scenarios
             // gameState = new GameState(Player.White, Board.InitialCastleTest());
             // gameState = new GameState(Player.White, Board.InitialEnPassantTest());
             // gameState = new GameState(Player.White, Board.InitialPromotionTest());
             // gameState = new GameState(Player.White, Board.InitialEndingTest());
 
+            // Draw the initial board and set cursor for the current player
             DrawBoard(gameState.Board);
             SetCursor(gameState.CurrentPlayer);
         }
 
+        // Initializes the visual board by creating images and highlight rectangles for each square
         private void InitializeBoard()
         {
             for (int r = 0; r < 8; r++)
@@ -43,15 +46,16 @@ namespace ChessUI
                 {
                     Image image = new Image();
                     pieceImages[r, c] = image;
-                    PieceGrid.Children.Add(image);
+                    PieceGrid.Children.Add(image); // Add piece images to the grid
 
                     Rectangle highlight = new Rectangle();
                     highlights[r, c] = highlight;
-                    HighlightGrid.Children.Add(highlight);
+                    HighlightGrid.Children.Add(highlight); // Add highlight rectangles to the grid
                 }
             }
         }
 
+        // Draws the board by setting each square's image source to the corresponding chess piece
         private void DrawBoard(Board board)
         {
             for (int r = 0; r < 8; r++)
@@ -59,16 +63,17 @@ namespace ChessUI
                 for (int c = 0; c < 8; c++)
                 {
                     Piece piece = board[r, c];
-                    pieceImages[r, c].Source = Images.GetImage(piece);
+                    pieceImages[r, c].Source = Images.GetImage(piece); // Set image for each piece
                 }
             }
         }
 
+        // Handles mouse clicks on the board
         private void BoardGrid_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (IsMenuOnScreen())
             {
-                return;
+                return; // Ignore if any menu is currently displayed
             }
 
             Point point = e.GetPosition(BoardGrid);
@@ -76,14 +81,15 @@ namespace ChessUI
 
             if (selectedPos == null)
             {
-                OnFromPositionSelected(pos);
+                OnFromPositionSelected(pos); // Select the piece to move
             }
             else
             {
-                OnToPositionSelected(pos);
+                OnToPositionSelected(pos); // Select the destination square
             }
         }
 
+        // Converts a clicked point to a board position
         private Position ToSquarePosition(Point point)
         {
             double squareSize = BoardGrid.ActualWidth / 8;
@@ -92,6 +98,7 @@ namespace ChessUI
             return new Position(row, col);
         }
 
+        // Handles the selection of the starting position of a piece
         private void OnFromPositionSelected(Position pos)
         {
             IEnumerable<Move> moves = gameState.LegalMovesForPiece(pos);
@@ -99,57 +106,61 @@ namespace ChessUI
             if (moves.Any())
             {
                 selectedPos = pos;
-                CacheMoves(moves);
-                ShowHighlights();
+                CacheMoves(moves); // Cache legal moves for highlighting
+                ShowHighlights(); // Highlight legal destination squares
             }
         }
 
+        // Handles the selection of the destination square for a piece
         private void OnToPositionSelected(Position pos)
         {
             selectedPos = null;
-            HideHighlights();
+            HideHighlights(); // Hide the highlights after selection
 
             if (moveCache.TryGetValue(pos, out Move move))
             {
                 if (move.Type == MoveType.PawnPromotion)
                 {
-                    HandlePromotion(move.FromPos, move.ToPos);
+                    HandlePromotion(move.FromPos, move.ToPos); // Handle pawn promotion
                 }
                 else
                 {
-                    HandleMove(move);
+                    HandleMove(move); // Make the move
                 }
             }
         }
 
+        // Handles pawn promotion, showing the promotion menu
         private void HandlePromotion(Position from, Position to)
         {
             pieceImages[to.Row, to.Column].Source = Images.GetImage(gameState.CurrentPlayer, PieceType.Pawn);
             pieceImages[from.Row, from.Column].Source = null;
 
             PromotionMenu promMenu = new PromotionMenu(gameState.CurrentPlayer);
-            MenuContainer.Content = promMenu;
+            MenuContainer.Content = promMenu; // Show promotion menu
 
             promMenu.PieceSelected += type =>
             {
                 MenuContainer.Content = null;
                 Move promMove = new PawnPromotion(from, to, type);
-                HandleMove(promMove);
+                HandleMove(promMove); // Handle the promotion move
             };
         }
 
+        // Handles making a move and updating the board
         private void HandleMove(Move move)
         {
             gameState.MakeMove(move);
-            DrawBoard(gameState.Board);
-            SetCursor(gameState.CurrentPlayer);
+            DrawBoard(gameState.Board); // Redraw the board after the move
+            SetCursor(gameState.CurrentPlayer); // Update the cursor based on the current player
 
             if (gameState.IsGameOver())
             {
-                ShowGameOver();
+                ShowGameOver(); // Show game over screen if the game has ended
             }
         }
 
+        // Sets the cursor based on the current player's color
         private void SetCursor(Player player)
         {
             if (player == Player.White)
@@ -162,6 +173,7 @@ namespace ChessUI
             }
         }
 
+        // Caches legal moves for the selected piece
         private void CacheMoves(IEnumerable<Move> moves)
         {
             moveCache.Clear();
@@ -172,9 +184,10 @@ namespace ChessUI
             }
         }
 
+        // Highlights legal move squares for the selected piece
         private void ShowHighlights()
         {
-            Color color = Color.FromArgb(150, 125, 255, 125);
+            Color color = Color.FromArgb(150, 125, 255, 125); // Semi-transparent highlight color
 
             foreach (Position to in moveCache.Keys)
             {
@@ -182,6 +195,7 @@ namespace ChessUI
             }
         }
 
+        // Removes the highlights from the board
         private void HideHighlights()
         {
             foreach (Position to in moveCache.Keys)
@@ -190,11 +204,13 @@ namespace ChessUI
             }
         }
 
+        // Checks if any menu is currently on screen
         private bool IsMenuOnScreen()
         {
             return MenuContainer.Content != null;
         }
 
+        // Restarts the game and resets the board
         private void RestartGame()
         {
             selectedPos = null;
@@ -205,6 +221,7 @@ namespace ChessUI
             SetCursor(gameState.CurrentPlayer);
         }
 
+        // Shows the game over screen
         private void ShowGameOver()
         {
             GameOverMenu gameOverMenu = new GameOverMenu(gameState);
@@ -215,23 +232,25 @@ namespace ChessUI
                 if (option == Option.Restart)
                 {
                     MenuContainer.Content = null;
-                    RestartGame();
+                    RestartGame(); // Restart the game
                 }
                 else
                 {
-                    Application.Current.Shutdown();
+                    Application.Current.Shutdown(); // Close the application
                 }
             };
         }
 
+        // Handles keyboard input for pausing or restarting the game
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             if (!IsMenuOnScreen() && e.Key == Key.Escape)
             {
-                ShowPauseMenu();
+                ShowPauseMenu(); // Show pause menu on escape key press
             }
         }
 
+        // Shows the pause menu
         private void ShowPauseMenu()
         {
             PauseMenu pauseMenu = new PauseMenu();
@@ -243,7 +262,7 @@ namespace ChessUI
 
                 if (option == Option.Restart)
                 {
-                    RestartGame();
+                    RestartGame(); // Restart game from pause menu
                 }
             };
         }
